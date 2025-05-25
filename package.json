@@ -1,0 +1,39 @@
+{
+  "name": "mediai-nodejs",
+  "version": "1.0.0",
+  "description": "Welcome to MediAI project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EduBellAI/MediAI-NodeJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EduBellAI/MediAI-NodeJS/issues"
+  },
+  "homepage": "https://github.com/EduBellAI/MediAI-NodeJS#readme",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.12.0",
+    "sequelize": "^6.37.5",
+    "sequelize-cli": "^6.6.2",
+    "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

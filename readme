@@ -1,0 +1,26 @@
+Welcome to MediAI project
+
+Steps to install this repo:
+1. You need nodejs installed in your system
+2. Clone this repo using the following command
+git clone <repo URL>
+3. Navigate into the project repo using cd foldername command
+4. You need to run the following command to install the required packages
+npm install
+5. We need to create a .env file and copy the .env.example file and put the correct values
+6.Migrate the role table first because other table has its dependency
+npx sequelize-cli db:migrate --name 20250212193626-create-role.js
+7.Run all other migrations
+npx sequelize-cli db:migrate
+8. Run other seeder
+npx sequelize-cli db:seed --seed 20250212194847-seed-roles.js
+npx sequelize-cli db:seed --seed 20250212195057-seed-admin-user.js
+9.Run the server
+npm run dev
+
+Note: If we need to revert the migration file, we can use this command:
+npx sequelize-cli db:migrate:undo:all
+Note: If we need to revert the seed, use the following command:
+npx sequelize-cli db:seed:undo:all
+
+
