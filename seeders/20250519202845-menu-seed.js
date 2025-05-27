@@ -7,7 +7,7 @@ module.exports = {
         id: 1,
         key: "chat_bot",
         menu: "Chat bot",
-        permission: JSON.stringify(["1", "2", "3", "4", "5"]), // super_admin, admin, user, staff, friends
+        permission: JSON.stringify(["1", "2", "3"]), // super_admin, admin, user
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -63,7 +63,7 @@ module.exports = {
         id: 8,
         key: "patient_360",
         menu: "Patient 360",
-        permission: JSON.stringify([1, 2, 3]), // super_admin, admin, user
+        permission: JSON.stringify(["1", "2", "3"]), // super_admin, admin, user
         createdAt: new Date(),
         updatedAt: new Date()
       }
