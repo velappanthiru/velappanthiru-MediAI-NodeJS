@@ -91,7 +91,6 @@ const updateMenuAccess = async (req, res) => {
 };
 
 
-// Get menus accessible by a specific role
 const getMenusByRole = async (req, res) => {
   try {
     const { roleName } = req.params;
@@ -103,42 +102,42 @@ const getMenusByRole = async (req, res) => {
       });
     }
 
-    // // Find all menus where the role is in the permission array
-    // const menus = await Menu.findAll({
-    //   where: {
-    //     permission: {
-    //       [Op.contains]: [roleName] // For PostgreSQL JSON contains
-    //       // For MySQL/MariaDB, you might need to use JSON_CONTAINS
-    //       // [Op.and]: sequelize.literal(`JSON_CONTAINS(permission, '"${roleName}"')`)
-    //     }
-    //   },
-    //   attributes: ['id', 'key', 'menu', 'permission'],
-    //   order: [['menu', 'ASC']]
-    // });
-
-    // Alternative query for databases that don't support Op.contains
+    // Fetch all menus (you can optimize this later for your DB)
     const menus = await Menu.findAll({
       attributes: ['id', 'key', 'menu', 'permission'],
       order: [['menu', 'ASC']]
     });
 
-    // Filter in JavaScript
     const filteredMenus = menus.filter(menu => {
       let permissions = [];
 
-      try {
-        permissions = JSON.parse(menu.permission || '[]');
-      } catch (err) {
-        console.error('Invalid JSON in permission:', menu.permission);
+      // Debug log for permissions type and value
+      // console.log('menu.permission type:', typeof menu.permission, menu.permission);
+
+      if (typeof menu.permission === 'string') {
+        try {
+          permissions = JSON.parse(menu.permission || '[]');
+        } catch (err) {
+          console.error('Invalid JSON in permission:', menu.permission);
+          return false;
+        }
+      } else if (Array.isArray(menu.permission)) {
+        permissions = menu.permission;
+      } else {
+        console.error('Unexpected format of permission:', menu.permission);
         return false;
       }
 
-      // Convert everything to string for consistent comparison
+      if (!Array.isArray(permissions)) {
+        console.error('Parsed permission is not an array:', permissions);
+        return false;
+      }
+
+      // Convert all to strings and check if roleName exists
       return permissions.map(p => p.toString()).includes(roleName.toString());
     });
-    console.log("🚀 ~ getMenusByRole ~ filteredMenus:", filteredMenus)
 
-
+    console.log("🚀 ~ getMenusByRole ~ filteredMenus:", filteredMenus);
 
     res.status(200).json({
       success: true,
@@ -156,6 +155,7 @@ const getMenusByRole = async (req, res) => {
     });
   }
 };
+
 
 module.exports = {
   getAllMenus,
