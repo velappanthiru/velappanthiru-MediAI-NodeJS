@@ -27,10 +27,20 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       permission: {
-        type: DataTypes.JSON, // Store array of roles allowed
+        type: DataTypes.TEXT, // Store JSON array as string
         allowNull: false,
-        defaultValue: []
-      }
+        get() {
+          const raw = this.getDataValue('permission');
+          try {
+            return raw ? JSON.parse(raw) : [];
+          } catch {
+            return [];
+          }
+        },
+        set(value) {
+          this.setDataValue('permission', JSON.stringify(value));
+        }
+      },
     },
     {
       sequelize,
