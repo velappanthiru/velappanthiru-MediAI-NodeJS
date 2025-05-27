@@ -2,16 +2,14 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Role extends Model {
+  class Menu extends Model {
     static associate(models) {
-      Role.hasMany(models.User, {
-        foreignKey: 'roleId',
-        as: 'users'
-      });
+      // Define associations here if needed
+      // For example, if Menu belongs to Role or other models
     }
   }
 
-  Role.init(
+  Menu.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -19,24 +17,28 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false
       },
-      name: {
+      key: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
       },
-      createdAt: {
-        type: DataTypes.DATE,
+      menu: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      permission: {
+        type: DataTypes.JSON, // Store array of roles allowed
         allowNull: false,
-        defaultValue: DataTypes.NOW
+        defaultValue: []
       }
     },
     {
       sequelize,
-      modelName: 'Role',
-      tableName: 'role',
-      timestamps: true,
+      modelName: 'Menu',
+      tableName: 'menus',
+      timestamps: true
     }
   );
 
-  return Role;
+  return Menu;
 };

@@ -5,6 +5,57 @@ const bcrypt = require("bcrypt");
 const { createJwtToken } = require('../utils/jwtHelper');
 const generatePassword = require('../utils/commonFunctions');
 
+
+// Get all roles - /api/roles
+const getAllRoles = catchAsync(async (req, res, next) => {
+  const roles = await Role.findAll();
+
+  res.status(200).json({
+    statusCode: 200,
+    data: roles,
+  });
+});
+
+const createRole = async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    // Validate input
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+      return res.status(400).json({
+        statusCode: 400,
+        error: 'Role name is required and must be a non-empty string',
+      });
+    }
+
+    // Check if role already exists
+    const existingRole = await Role.findOne({ where: { name: name.trim() } });
+
+    if (existingRole) {
+      return res.status(409).json({
+        statusCode: 409,
+        error: 'Role already exists',
+      });
+    }
+
+    // Create new role
+    const role = await Role.create({ name: name.trim() });
+
+    return res.status(201).json({
+      statusCode: 201,
+      message: 'Role created successfully',
+      data: role,
+    });
+  } catch (err) {
+    console.error('Error creating role:', err);
+    return res.status(500).json({
+      statusCode: 500,
+      error: 'Internal Server Error',
+    });
+  }
+};
+
+
 // Get all users - /api/users
 const getAllUsers = catchAsync(async (req, res, next) => {
   try {
@@ -186,6 +237,8 @@ const getUserProfile = catchAsync(async (req,res,next) => {
 })
 
 module.exports = {
+  getAllRoles,
+  createRole,
   getAllUsers,
   loginUser,
   registerUser,

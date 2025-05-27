@@ -3,26 +3,26 @@
 const { Role } = require('../models'); // Adjust the path if necessary
 
 module.exports = {
-  async create(req, res) {
-    try {
-      const { name, access } = req.body;
+  // async create(req, res) {
+  //   try {
+  //     const { name } = req.body;
 
-      if (!name || !Array.isArray(access)) {
-        return res.status(400).json({ message: 'Invalid input: name and access array are required' });
-      }
+  //     if (!name || !Array.isArray(access)) {
+  //       return res.status(400).json({ message: 'Invalid input: name and access array are required' });
+  //     }
 
-      // Create the role record
-      const newRole = await Role.create({
-        name,
-        access
-      });
+  //     // Create the role record
+  //     const newRole = await Role.create({
+  //       name,
+  //       access
+  //     });
 
-      return res.status(201).json(newRole);
-    } catch (error) {
-      console.error('Error creating role:', error);
-      return res.status(500).json({ message: 'Internal server error' });
-    }
-  },
+  //     return res.status(201).json(newRole);
+  //   } catch (error) {
+  //     console.error('Error creating role:', error);
+  //     return res.status(500).json({ message: 'Internal server error' });
+  //   }
+  // },
 
   async get(req, res) {
     try {

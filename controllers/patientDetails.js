@@ -6,12 +6,16 @@ const upload = multer({ storage: storage });
 
 const handleImageUpload = async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No image file provided.' });
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ error: 'No image files provided.' });
         }
+
         const pythonApiUrl = 'PYTHON_URI';
         const formData = new FormData();
-        formData.append('image', Buffer.from(req.file.buffer), req.file.originalname);
+
+        req.files.forEach(file => {
+            formData.append('images', Buffer.from(file.buffer), file.originalname);
+        });
 
         const response = await axios.post(pythonApiUrl, formData, {
             headers: {
@@ -21,8 +25,8 @@ const handleImageUpload = async (req, res) => {
 
         res.json({ text: response.data.text });
     } catch (error) {
-        console.error('Error sending image to Python:', error);
-        res.status(500).json({ error: 'Failed to process image.' });
+        console.error('Error sending images to Python:', error);
+        res.status(500).json({ error: 'Failed to process images.' });
     }
 };
 

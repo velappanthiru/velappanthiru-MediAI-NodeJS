@@ -2,11 +2,13 @@ const express = require("express");
 const router = express.Router();
 
 const { authenticateToken, authorizeRole } = require("../middleware/authMiddleware");
-const { getAllUsers, loginUser, registerUser, changePassword, getUserProfile } = require("../controllers/userController");
+const { getAllUsers, loginUser, registerUser, changePassword, getUserProfile, getAllRoles, createRole } = require("../controllers/userController");
 
 
 // Get All Users (Excluding Admins)
 router.get("/users", authenticateToken, authorizeRole(1), getAllUsers);
+router.get("/roles", authenticateToken, authorizeRole(1), getAllRoles);
+router.post("/roles", authenticateToken, authorizeRole(1), createRole);
 
 // Login Route (POST /login)
 router.route("/login").post(loginUser);
