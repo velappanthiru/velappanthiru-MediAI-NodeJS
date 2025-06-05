@@ -23,51 +23,47 @@ const updateMenuAccess = async (req, res) => {
     if (!menuId || !roleName || hasAccess === undefined) {
       return res.status(400).json({
         success: false,
-        message: 'Menu ID, role name, and access status are required'
+        message: 'Menu ID, role name, and access status are required',
       });
     }
 
-    // Find the menu by ID
     const menu = await Menu.findByPk(menuId);
-    console.log("🚀 ~ updateMenuAccess ~ menu:", menu)
     if (!menu) {
       return res.status(404).json({
         success: false,
-        message: 'Menu not found'
+        message: 'Menu not found',
       });
     }
 
-    // Get current permissions
+    // Parse permission (could be JSON or already array of numbers)
     let currentPermissions = menu.permission || [];
-    // Handle case where permission might be stored as string
+
     if (typeof currentPermissions === 'string') {
       try {
         currentPermissions = JSON.parse(currentPermissions);
       } catch (error) {
-        console.log('Error parsing permissions JSON:', error);
+        console.error('Error parsing permissions JSON:', error);
         currentPermissions = [];
       }
     }
 
-    // Ensure it's an array
     if (!Array.isArray(currentPermissions)) {
       currentPermissions = [];
     }
 
+    // Normalize roleName to a number
+    const roleId = Number(roleName);
+
     if (hasAccess) {
-      // Add role to permissions if not already present
-      if (!currentPermissions.includes(roleName)) {
-        currentPermissions.push(roleName);
+      if (!currentPermissions.includes(roleId)) {
+        currentPermissions.push(roleId);
       }
     } else {
-      // Remove role from permissions
-      currentPermissions = currentPermissions.filter(role => String(role) !== String(roleName));
+      currentPermissions = currentPermissions.filter((role) => role !== roleId);
     }
-    console.log("🚀 ~ updateMenuAccess ~ currentPermissions:", currentPermissions)
 
-    // Update the menu with new permissions
     await menu.update({
-      permission: currentPermissions
+      permission: currentPermissions, // Assumes DB column is ARRAY or JSON (not TEXT)
     });
 
     res.status(200).json({
@@ -76,8 +72,8 @@ const updateMenuAccess = async (req, res) => {
       data: {
         menuId: menu.id,
         menu: menu.menu,
-        permission: currentPermissions
-      }
+        permission: currentPermissions,
+      },
     });
 
   } catch (error) {
@@ -85,7 +81,7 @@ const updateMenuAccess = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Internal server error',
-      error: error.message
+      error: error.message,
     });
   }
 };
