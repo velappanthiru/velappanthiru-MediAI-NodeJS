@@ -4,8 +4,16 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Menu extends Model {
     static associate(models) {
-      // Define associations here if needed
-      // For example, if Menu belongs to Role or other models
+      // Self-referencing parent-child relationship
+      Menu.hasMany(models.Menu, {
+        foreignKey: 'parentId',
+        as: 'children',
+      });
+
+      Menu.belongsTo(models.Menu, {
+        foreignKey: 'parentId',
+        as: 'parent',
+      });
     }
   }
 
@@ -15,28 +23,31 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
       },
-      key: {
+      title: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
       },
-      menu: {
+      path: {
         type: DataTypes.STRING,
-        allowNull: false
-      },
-      permission: {
-        type: DataTypes.JSON, // Store array of roles allowed
         allowNull: false,
-        defaultValue: []
-      }
+        unique: true,
+      },
+      icon: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      parentId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
     {
       sequelize,
       modelName: 'Menu',
       tableName: 'menus',
-      timestamps: true
+      timestamps: true,
     }
   );
 

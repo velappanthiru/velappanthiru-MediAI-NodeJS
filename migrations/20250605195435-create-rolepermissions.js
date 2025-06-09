@@ -3,35 +3,32 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('menus', {
+    await queryInterface.createTable('rolepermissions', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      path: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      icon: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      parentId: {
+      roleId: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
+        references: {
+          model: 'roles',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      menuId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'menus',
           key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
@@ -44,9 +41,16 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     });
+
+    // Optionally, add unique constraint so same role-menu pair can’t repeat
+    await queryInterface.addConstraint('rolepermissions', {
+      fields: ['roleId', 'menuId'],
+      type: 'unique',
+      name: 'unique_role_menu',
+    });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('menus');
+    await queryInterface.dropTable('rolepermissions');
   },
 };

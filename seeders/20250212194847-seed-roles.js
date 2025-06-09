@@ -2,7 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('role', [ // Fixed table name
+    return queryInterface.bulkInsert('roles', [ // Fixed table name
       {
         id: 1,
         name: 'Super Admin',
@@ -25,6 +25,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('role', null, {}); // Fixed table name
+    return queryInterface.bulkDelete('roles', null, {}); // Fixed table name
   }
 };

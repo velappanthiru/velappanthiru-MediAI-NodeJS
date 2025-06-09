@@ -1,8 +1,9 @@
 'use strict';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('role', { // Table name should be lowercase
+    await queryInterface.createTable('roles', { // ✅ use plural form
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,19 +13,22 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true // Ensures unique role names
+        unique: true // ✅ ensures role names are unique
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') // optional default
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') // optional default
       }
     });
   },
+
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('role');
+    await queryInterface.dropTable('roles'); // ✅ match plural
   }
 };

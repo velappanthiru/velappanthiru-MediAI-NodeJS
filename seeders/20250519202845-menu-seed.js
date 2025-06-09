@@ -1,79 +1,85 @@
 'use strict';
 
+/** @type {import('sequelize-cli').Seeder} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('menus', [
       {
-        id: 1,
-        key: "chat_bot",
-        menu: "Chat bot",
-        permission: JSON.stringify([1, 2, 3, 4, 5]), // super_admin, admin, user, staff, friends
+        title: 'Dashboard',
+        path: '/dashboard',
+        icon: 'MdOutlineDashboard',
+        parentId: null,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        id: 2,
-        key: "book_list",
-        menu: "Book List",
-        permission: JSON.stringify([1, 2]), // super_admin, admin
+        title: 'Chat Bot',
+        path: '/chatbot',
+        icon: 'IoChatboxEllipsesOutline',
+        parentId: null,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        id: 3,
-        key: "user",
-        menu: "User",
-        permission: JSON.stringify([1, 2]), // super_admin, admin
+        title: 'Book List',
+        path: '/book-list',
+        icon: 'LuBookUp',
+        parentId: null,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        id: 4,
-        key: "online_exam",
-        menu: "Online Exam",
-        permission: JSON.stringify([1, 2, 3]), // super_admin, admin, user
+        title: 'Users',
+        path: '/user',
+        icon: 'PiUsers', // SVG based, so use a custom identifier
+        parentId: null,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        id: 5,
-        key: "lesson_plan",
-        menu: "Lesson Plan",
-        permission: JSON.stringify([1, 2, 3]), // super_admin, admin, user
+        title: 'Patient 360',
+        path: '/patient-details',
+        icon: 'MdMedicalServices',
+        parentId: null,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        id: 6,
-        key: "reports",
-        menu: "Reports",
-        permission: JSON.stringify([1, 2]), // super_admin, admin
+        title: 'Online Exam',
+        path: '/questions',
+        icon: 'PiExam',
+        parentId: null,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        id: 7,
-        key: "role_and_permission",
-        menu: "Role and Permission",
-        permission: JSON.stringify([1]), // super_admin only
+        title: 'Lesson Plan',
+        path: '/lesson-plan',
+        icon: 'MdOutlineLibraryBooks',
+        parentId: null,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        id: 8,
-        key: "patient_360",
-        menu: "Patient 360",
-        permission: JSON.stringify([1, 2, 3]), // super_admin, admin, user
+        title: 'Reports',
+        path: '/reports',
+        icon: 'MdReportGmailerrorred',
+        parentId: null,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+      },
+      {
+        title: 'Role and Permission',
+        path: '/role-and-permission',
+        icon: 'MdSecurity',
+        parentId: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
     ]);
   },
 
   async down(queryInterface, Sequelize) {
-    // Delete specific records by their IDs to ensure clean removal
-    await queryInterface.bulkDelete('menus', {
-      id: [1, 2, 3, 4, 5, 6, 7, 8]
-    }, {});
-  }
+    await queryInterface.bulkDelete('menus', null, {});
+  },
 };

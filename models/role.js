@@ -23,18 +23,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
-      },
-      createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
       }
+      // ⛔ Remove createdAt — Sequelize will add it
     },
     {
       sequelize,
       modelName: 'Role',
-      tableName: 'role',
-      timestamps: true,
+      tableName: 'roles', // ✅ Matches your migration
+      timestamps: true,   // ✅ Enables createdAt & updatedAt automatically
     }
   );
 

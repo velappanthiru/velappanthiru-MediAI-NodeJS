@@ -5,6 +5,7 @@ const roleRoutes = require("./roles");
 const mennuoutes = require("./menu");
 const questionRoutes = require("./question");
 const patientRecordsRoutes = require("./patientRecords");
+const rolePermission = require("./rolePermission");
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.use(roleRoutes);
 router.use(mennuoutes);
 router.use(questionRoutes);
 router.use(patientRecordsRoutes);
+router.use(rolePermission);
 
 module.exports = router;

@@ -34,7 +34,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: {
-          model: 'role', // Reference corrected to lowercase table name
+          model: 'roles', // Reference corrected to lowercase table name
           key: 'id',
         },
         onUpdate: 'CASCADE',
