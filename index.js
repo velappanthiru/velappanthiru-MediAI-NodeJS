@@ -10,16 +10,25 @@ const app = express();
 const PORT = process.env.PORT || 3100;
 
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:5000', 'https://mediai-cqe9.onrender.com/']; // Add your domains here
+  const allowedOrigins = [
+    'https://doctorjebasingh.in', // add your real domain here
+  ];
 
-  // Check if the origin of the request is in the allowedOrigins array
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin'); // Proper caching for CORS
   }
 
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  // Respond to preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204); // No Content
+  }
+
   next();
 });
 
