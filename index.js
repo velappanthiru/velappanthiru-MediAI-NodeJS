@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3100;
 app.use((req, res, next) => {
   const allowedOrigins = [
     'https://doctorjebasingh.in', // add your real domain here
+    'http://136.185.10.62:3000/'
   ];
 
   const origin = req.headers.origin;
