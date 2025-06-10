@@ -45,7 +45,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        title: 'Online Exam',
+        title: 'Exam Questions',
         path: '/questions',
         icon: 'PiExam',
         parentId: null,
