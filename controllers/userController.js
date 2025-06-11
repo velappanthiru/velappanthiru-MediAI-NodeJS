@@ -98,8 +98,8 @@ const loginUser = catchAsync(async (req, res, next) => {
   // Compare password
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return res.status(401).json({
-      statusCode: 401,
+    return res.status(500).json({
+      statusCode: 500,
       data: { message: "Invalid password" },
     });
   }
@@ -202,7 +202,7 @@ const changePassword = catchAsync(async (req, res, next) => {
     // Compare old password with stored hash
     const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) {
-      return res.status(401).json({ statusCode: 401, message: "Incorrect old password." });
+      return res.status(500).json({ statusCode: 500, message: "Incorrect old password." });
     }
 
     // Hash new password
