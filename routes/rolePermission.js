@@ -4,8 +4,8 @@ const rolePermissionController = require('../controllers/rolePermissionControlle
 const { authenticateToken, authorizeRole } = require('../middleware/authMiddleware');
 
 router.post('/roles/:roleId/permissions', authenticateToken, authorizeRole(1), rolePermissionController.assignPermissionsToRole);
-router.get('/roles/:roleId/permissions', authenticateToken, authorizeRole(1), rolePermissionController.getPermissionsByRole);
-router.get('/:roleId/permissions', authenticateToken, authorizeRole(1), rolePermissionController.getMenuIdsByRole);
+router.get('/roles/:roleId/permissions', authenticateToken, rolePermissionController.getPermissionsByRole);
+router.get('/:roleId/permissions', authenticateToken, rolePermissionController.getMenuIdsByRole);
 router.delete('/roles/:roleId/permissions/:menuId', authenticateToken, authorizeRole(1), rolePermissionController.removePermission);
 
 module.exports = router;
