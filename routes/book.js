@@ -32,14 +32,14 @@ const upload = multer({
  * @desc Create a new book
  * @access Private (Only Admins)
  */
-router.route("/books").post(authenticateToken, authorizeRole(1), upload.single("bookFile"), createBook);
+router.route("/books").post(authenticateToken, upload.single("bookFile"), createBook);
 
 /**
  * @route PUT /books/:id
  * @desc Edit book details (Admins only)
  * @access Private (Only Admins)
  */
-router.route("/books/:id").put(authenticateToken, authorizeRole(1), upload.single("bookFile"), updateBook);
+router.route("/books/:id").put(authenticateToken, upload.single("bookFile"), updateBook);
 
 /**
  * @route GET /books

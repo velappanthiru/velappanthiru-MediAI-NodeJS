@@ -6,15 +6,15 @@ const { getAllUsers, loginUser, registerUser, changePassword, getUserProfile, ge
 
 
 // Get All Users (Excluding Admins)
-router.get("/users", authenticateToken, authorizeRole(1), getAllUsers);
-router.get("/roles", authenticateToken, authorizeRole(1), getAllRoles);
-router.post("/roles", authenticateToken, authorizeRole(1), createRole);
+router.get("/users", authenticateToken, getAllUsers);
+router.get("/roles", authenticateToken, getAllRoles);
+router.post("/roles", authenticateToken, createRole);
 
 // Login Route (POST /login)
 router.route("/login").post(loginUser);
 
 // Register Route (POST /register)
-router.route("/register").post(authenticateToken, authorizeRole(1), registerUser);
+router.route("/register").post(authenticateToken, registerUser);
 
 router.route("/change-password").post(authenticateToken, changePassword);
 
