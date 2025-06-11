@@ -60,7 +60,6 @@ const createRole = async (req, res) => {
 const getAllUsers = catchAsync(async (req, res, next) => {
   try {
     const users = await User.findAll({
-      where: { roleId: { [Op.ne]: 1 } }, // Exclude Admins
       attributes: { exclude: ["password"] } // Hide passwords
     });
 
